@@ -18,6 +18,8 @@
     function ToBuyController (ShoppingListCheckOffService) {
         var toBuyList = this;
 
+        toBuyList.items = ShoppingListCheckOffService.getItemsToBuy();
+
         toBuyList.itemName = "";
         toBuyList.itemQuantity = "";
 
@@ -34,7 +36,72 @@
 
     function AlreadyBoughtController (ShoppingListCheckOffService) {
 
+        var boughtList = this;
+
+        boughtList.items = ShoppingListCheckOffService.getItemsBought();
+
     };
+
+    function ShoppingListCheckOffService () {
+        var service = this;
+
+        var items1 = [
+            {
+                name: "Milk",
+                quantity: "2"
+            },
+            {
+                name: "Donuts",
+                quantity: "100"
+            },
+            {
+                name: "Cookies",
+                quantity: "300"
+            },
+            {
+                name: "Chocolate",
+                quantity: "5"
+            },
+            {
+                name: "Bread",
+                quantity: "5"
+            },
+        ];
+
+        var items2 = [];
+
+        service.addItem = function (itemName, itemQuantity) {
+            var item = {
+                name: itemName,
+                quantity: itemQuantity
+            };
+            items2.push(item);
+        }
+
+        service.removeItem = function(itemIndex) {
+
+            var item = {
+                name: items1[itemIndex].name,
+                quantity: items1[itemIndex].quantity
+            };
+
+            items1.splice(itemIndex, 1);
+            try {
+                items2.push(item);
+            } catch (e) {
+                service.errorMessage = e.message;
+            }
+        };
+
+        service.getItemsToBuy = function(){
+            return items1;
+        };
+
+        service.getItemsBought = function(){
+            return items2;
+        };
+
+    }
 
 
 })();
